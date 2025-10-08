@@ -1,5 +1,7 @@
 #include "Matrix.h"
 #include <iostream>
+#include <iomanip> // Para alinea los números dentro de los corchete
+
 using namespace std;
 
 Matrix::Matrix(int numFilas, int numColumnas) {
@@ -21,7 +23,7 @@ Matrix::~Matrix() {
 
 Matrix Matrix::Suma(Matrix x) {
 	Matrix R(getFilas(), getColumnas());
-	// Recorrer ambas matrices y sumarlas
+	// Recorrer ambas matrices y las suma
 	for (int fil = 0; fil < getFilas(); ++fil) {
 		for (int col = 0; col < getColumnas(); ++col) {
 			R.datos[fil][col] = datos[fil][col] + x.datos[fil][col];
@@ -32,7 +34,7 @@ Matrix Matrix::Suma(Matrix x) {
 
 Matrix Matrix::Resta(Matrix x) {
 	Matrix R(getFilas(), getColumnas());
-	// Recorrer ambas matrices y sumarlas suponiendo que ambas matrices son del mismo tamaño
+	// Recorrer ambas matrices y las resta
 	for (int fil = 0; fil < getFilas(); ++fil) {
 		for (int col = 0; col < getColumnas(); ++col) {
 			R.datos[fil][col] = datos[fil][col] - x.datos[fil][col];
@@ -95,7 +97,7 @@ int Matrix::getColumnas() { return columnas; }
 void Matrix::Imprimir() {
 	for (int i = 0; i < filas; ++i) {
 		for (int j = 0; j < columnas; ++j) {
-			cout << datos[i][j] << " ";
+			cout << "[" << setw(4) << datos[i][j] << "] ";
 		}
 		cout << endl;
 	}
