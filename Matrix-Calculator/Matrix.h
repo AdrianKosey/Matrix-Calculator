@@ -9,7 +9,7 @@ public:
 	~Matrix();
 	Matrix Suma(Matrix x);
 	Matrix Resta(Matrix x);
-	Matrix Multiplicacion(Matrix x);
+	Matrix Multiplicacion(Matrix x, int filas, int columnas);
 	void setDato(int f, int c, int valor);
 	int getDato(int f, int c);
 	int getFilas();
