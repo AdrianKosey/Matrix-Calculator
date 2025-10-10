@@ -1,6 +1,6 @@
 #include "Matrix.h"
 #include <iostream>
-#include <iomanip> // Para alinea los números dentro de los corchete
+#include <iomanip> // Para alinea los numeros dentro de los corchete
 
 using namespace std;
 
@@ -11,14 +11,54 @@ Matrix::Matrix(int numFilas, int numColumnas) {
 	for (int i = 0; i < filas; ++i) {
 		datos[i] = new int[columnas];
 	}
-	//cout << "Matriz creada con " << filas << " filas y " << columnas << " columnas." << endl;
+	//cout << "Constructor con dos parametros llamado" << endl;
+}
+
+Matrix::Matrix(const Matrix& other) {
+	filas = other.filas;
+	columnas = other.columnas;
+
+	datos = new int* [filas];
+	for (int i = 0; i < filas; ++i) {
+		datos[i] = new int[columnas];
+		for (int j = 0; j < columnas; ++j) {
+			datos[i][j] = other.datos[i][j]; // Copia profunda
+		}
+	}
+	//cout << "Constructor por copia llamado" << endl;
+}
+
+Matrix& Matrix::operator=(const Matrix& other) {
+	if (this == &other) return *this; // Evita autoasignacion
+
+	// Liberar memoria existente
+	for (int i = 0; i < filas; ++i) {
+		delete[] datos[i];
+	}
+	delete[] datos;
+
+	// Copiar dimensiones
+	filas = other.filas;
+	columnas = other.columnas;
+
+	// Asignar nueva memoria y copiar datos
+	datos = new int* [filas];
+	for (int i = 0; i < filas; ++i) {
+		datos[i] = new int[columnas];
+		for (int j = 0; j < columnas; ++j) {
+			datos[i][j] = other.datos[i][j];
+		}
+	}
+	//cout << "Operador de asignacion sobrecargado usado" << endl;
+	return *this;
 }
 
 Matrix::~Matrix() {
-	/*for (int i = 0; i < filas; ++i) {
+	for (int i = 0; i < filas; ++i) {
 		delete[] datos[i]; // Liberar memoria de cada columna
 	}
-	delete[] datos; // Liberar memoria de las filas*/
+	delete[] datos; // Liberar memoria de las filas
+	//cout << "Objeto destruido" << endl;
 }
 
 Matrix Matrix::Suma(Matrix x) {
@@ -29,6 +69,7 @@ Matrix Matrix::Suma(Matrix x) {
 			R.datos[fil][col] = datos[fil][col] + x.datos[fil][col];
 		}
 	}
+	//cout << "Retornando objeto" << endl;
 	return R;
 }
 
@@ -45,31 +86,15 @@ Matrix Matrix::Resta(Matrix x) {
 
 Matrix Matrix::Multiplicacion(Matrix x, int filas, int columnas) {
 	Matrix R(filas, columnas);
-	int c = 0, suma = 0;
-	/*for (int fil1 = 0; fil1 < getFilas(); ++fil1) { // Ciclo fila matriz 1
-		for (int col2 = 0; col2 < x.getColumnas(); ++col2) { // Ciclo columnas matriz 2
-			for (int col1 = 0; col1 < getColumnas(); ++col1) { // Ciclo columnas matriz 1
-				for (int fil2 = 0; fil2 < x.getFilas(); ++fil2) { // Ciclo filas matriz 2
-					datoNuevo = datos[fil1][col1] * x.datos[fil2][col2];
-					datoNuevo += datoNuevo;
-				}
-			}
-			R.datos[fil1][col2] = datoNuevo;
-			datoNuevo = 0;
-		}
-	}*/
-
-	for (int i = 0; i < filas; ++i) {
-		c = 0;
-		while (c < columnas) {
-			suma = 0;
-			for (int j = 0; j < getColumnas(); ++j) {
-
+	for (int i = 0; i < getFilas(); ++i) {
+		for (int j = 0; j < x.getColumnas(); ++j) {
+			R.datos[i][j] = 0;
+			for (int k = 0; k < getColumnas(); ++k) {
+				R.datos[i][j] += datos[i][k] * x.datos[k][j];
 			}
 		}
 	}
-
-	return R; // Temporal
+	return R;
 }
 
 void Matrix::setDato(int f, int c, int valor) {
@@ -101,4 +126,14 @@ void Matrix::Imprimir() {
 		}
 		cout << endl;
 	}
+}
+
+std::ostream& operator<<(std::ostream& out, const Matrix& m1) {
+	for (int i = 0; i < m1.filas; ++i) {
+		for (int j = 0; j < m1.columnas; ++j) {
+			out << "[" << setw(4) << m1.datos[i][j] << "] ";
+		}
+		out << endl;
+	}
+	return out;
 }

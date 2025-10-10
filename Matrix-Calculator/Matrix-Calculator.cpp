@@ -14,7 +14,7 @@ void gotoxy(int x, int y) {
 
 void mostrarMenu() {
     cout << "\n+==============================================+\n";
-    cout << "|      CALCULADORA DE MATRICES EN C++          |\n";
+    cout << "|           CALCULADORA DE MATRICES            |\n";
     cout << "+==============================================+\n";
     cout << "| A) Suma de matrices                          |\n";
     cout << "| B) Resta de matrices                         |\n";
@@ -30,7 +30,7 @@ void ingresarMatrizVisual(Matrix& M, const string& nombre, int startX = 5, int s
     system("cls");
     cout << "Ingrese los valores para " << nombre << ":\n";
 
-    // Dibujar cuadrícula
+    // Dibujar cuadricula
     for (int i = 0; i < filas; ++i) {
         for (int j = 0; j < columnas; ++j) {
             gotoxy(startX + j * 6, startY + i * 2);
@@ -60,7 +60,7 @@ int main() {
     cin >> opcion;
     opcion = toupper(opcion);
 
-    // Validación anticipada
+    // Validacion anticipada
     bool dimensionesValidas = false;
     switch (opcion) {
     case 'A':
@@ -95,22 +95,22 @@ int main() {
     Matrix A(f1, c1), B(f2, c2);
     ingresarMatrizVisual(A, "Matriz A");
     ingresarMatrizVisual(B, "Matriz B");
-
+    Matrix R(1, 1); // Temporal
     cout << endl << "Resultado:" << endl;
-    Matrix R(1, 1); // Inicialización temporal
-
     switch (opcion) {
     case 'A':
-        R = A.Suma(B);
-        A.Imprimir(); cout << "\n + \n\n"; B.Imprimir(); cout << "\n = \n\n"; R.Imprimir();
+        R = A.Suma(B); // Llama el operador de asignacion sobrecargado
+        A.Imprimir(); cout << "\n + \n\n"; B.Imprimir(); cout << "\n = \n\n";
+        // R.Imprimir();
+        cout << R; // Llama al operador "<<" sobrecargado
         break;
     case 'B':
         R = A.Resta(B);
-        A.Imprimir(); cout << "\n - \n\n"; B.Imprimir(); cout << "\n = \n\n"; R.Imprimir();
+        A.Imprimir(); cout << "\n - \n\n"; B.Imprimir(); cout << "\n = \n\n"; cout << R;
         break;
     case 'C':
         R = A.Multiplicacion(B, f1, c2);
-        A.Imprimir(); cout << "\n x \n\n"; B.Imprimir(); cout << "\n = \n\n"; R.Imprimir();
+        A.Imprimir(); cout << "\n x \n\n"; B.Imprimir(); cout << "\n = \n\n"; cout << R;
         break;
     }
 
